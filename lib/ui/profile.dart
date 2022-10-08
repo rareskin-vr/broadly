@@ -1,5 +1,6 @@
 import 'package:broadly/ui/tweet.dart';
 import 'package:flutter/material.dart';
+import 'package:broadly/helper/helpeui.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  HelperUI helperUI=HelperUI();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,80 +85,15 @@ class _ProfileState extends State<Profile> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: ListView.builder(
+                    child: ListView.builder(shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 10,
+                        itemCount: 50,
                         itemBuilder: (BuildContext context, int index) {
-                          return tweetTile();
+                          return helperUI.tweetTile(context);
                         }),
                   ),
                 )
               ]),
         ));
-  }
-
-  Padding tweetTile() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.14,
-        width: MediaQuery.of(context).size.width,
-        //color: Colors.black87,
-        child: Row(
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: CircleAvatar(
-                backgroundColor: Colors.indigo,
-                minRadius: 25,
-              ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        "Shivam Kumar Singh",
-                        //style: TextStyle(color: Colors.white),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 15.0,
-                        ),
-                        child: Text(
-                          "12/10/22",
-                          //style: TextStyle(color: Colors.white),
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text(
-                            "Let’s try this then: the will of the people who live in the Donbas & Crimea should decide whether they’re part of Russia or Ukraine",
-                            maxLines: 5,
-                            //style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

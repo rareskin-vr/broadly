@@ -1,3 +1,4 @@
+import 'package:broadly/ui/homepage.dart';
 import 'package:broadly/ui/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const Profile()
+      home: const Homepage()
     );
   }
 }
