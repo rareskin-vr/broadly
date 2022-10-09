@@ -1,10 +1,12 @@
+import 'package:broadly/helper/helpeui.dart';
 import 'package:broadly/ui/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Verify extends StatefulWidget {
-  const Verify({Key? key}) : super(key: key);
-
+  final String verificationId;
+  const Verify({Key? key, required this.verificationId}) : super(key: key);
   @override
   State<Verify> createState() => _VerifyState();
 }
@@ -16,6 +18,7 @@ class _VerifyState extends State<Verify> {
 
   @override
   Widget build(BuildContext context) {
+    HelperUI helperUI = HelperUI();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black87,
@@ -111,10 +114,23 @@ class _VerifyState extends State<Verify> {
                     child: IconButton(
                       splashRadius: 40,
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Homepage()));
+                        helperUI.showLoaderDialog(context,"Verifying please wait..");
+
+                        FirebaseAuth auth = FirebaseAuth.instance;
+                        var code = otp.text.trim();
+                        var credential = PhoneAuthProvider.credential(
+                            verificationId: widget.verificationId,
+                            smsCode: code);
+                        auth.signInWithCredential(credential).then((value) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Homepage()));
+                        }).catchError((e) {
+                          var snackBar = SnackBar(
+                            content: Text(e.toString()),
+                          );
+                        });
                       },
                       disabledColor: Colors.indigo,
                       icon: const Icon(

@@ -1,4 +1,5 @@
-import 'package:broadly/ui/verifyotp.dart';
+import 'package:broadly/auth/authph.dart';
+import 'package:broadly/helper/helpeui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,6 +11,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  HelperUI helperUI=HelperUI();
+  final AuthPh _authPh=AuthPh();
   final double _radius = 20;
   final formKey = GlobalKey<FormState>();
   TextEditingController phoneNumber = TextEditingController();
@@ -112,10 +115,7 @@ class _LoginState extends State<Login> {
                     child: IconButton(
                       splashRadius: 40,
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Verify()));
+                   _authPh.registerUser("+91${phoneNumber.text}", context);
                       },
                       disabledColor: Colors.indigo,
                       icon: const Icon(

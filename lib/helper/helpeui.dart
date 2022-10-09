@@ -65,5 +65,20 @@ class HelperUI{
       ),
     );
   }
+  showLoaderDialog(BuildContext context,String text){
+    AlertDialog alert=AlertDialog(
+      content: Row(
+        children: [
+          const CircularProgressIndicator(),
+          Container(padding: const EdgeInsets.symmetric(horizontal: 20),child:Text(text)),
+        ],),
+    );
+    showDialog(barrierDismissible: false,
+      context:context,
+      builder:(BuildContext context){
+        return alert;
+      },
+    );
+  }
 
 }

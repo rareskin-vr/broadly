@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "765038946348",
+    "project_id": "broadly-dev",
+    "storage_bucket": "broadly-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765038946348:android:7e39c016a2dcd139058989",
+        "android_client_info": {
+          "package_name": "com.rareskin.broadly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765038946348-qi7ra3ok7d84hi1496aap9di2ncmvqet.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rareskin.broadly",
+            "certificate_hash": "17a588500dbaba98858edbf011925c5dc9961e7b"
+          }
+        },
+        {
+          "client_id": "765038946348-l4uin56qb4nh0bp9tu7gfpabnicm72i4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcbkztAontxCjVRWwkIk08dfJrVMUUbxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765038946348-l4uin56qb4nh0bp9tu7gfpabnicm72i4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
