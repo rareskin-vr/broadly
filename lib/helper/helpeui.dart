@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class HelperUI{
+class HelperUI {
   Padding tweetTile(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Container(
+      child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.14,
         width: MediaQuery.of(context).size.width,
         //color: Colors.black87,
@@ -65,20 +65,31 @@ class HelperUI{
       ),
     );
   }
-  showLoaderDialog(BuildContext context,String text){
-    AlertDialog alert=AlertDialog(
+
+  showLoaderDialog(BuildContext context, String text) {
+    AlertDialog alert = AlertDialog(
       content: Row(
         children: [
           const CircularProgressIndicator(),
-          Container(padding: const EdgeInsets.symmetric(horizontal: 20),child:Text(text)),
-        ],),
+          Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(text)),
+        ],
+      ),
     );
-    showDialog(barrierDismissible: false,
-      context:context,
-      builder:(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
         return alert;
       },
     );
   }
 
+  void showSnackBar(BuildContext context, String text) {
+    var snackBar = SnackBar(
+      content: Text(text),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }

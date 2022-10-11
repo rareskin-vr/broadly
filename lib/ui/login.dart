@@ -11,11 +11,17 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  HelperUI helperUI=HelperUI();
-  final AuthPh _authPh=AuthPh();
+  HelperUI helperUI = HelperUI();
+  final AuthPh _authPh = AuthPh();
   final double _radius = 20;
   final formKey = GlobalKey<FormState>();
   TextEditingController phoneNumber = TextEditingController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    phoneNumber.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +121,7 @@ class _LoginState extends State<Login> {
                     child: IconButton(
                       splashRadius: 40,
                       onPressed: () {
-                   _authPh.registerUser("+91${phoneNumber.text}", context);
+                        _authPh.registerUser("+91${phoneNumber.text}", context);
                       },
                       disabledColor: Colors.indigo,
                       icon: const Icon(

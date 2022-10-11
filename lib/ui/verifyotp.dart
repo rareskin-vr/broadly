@@ -1,8 +1,10 @@
 import 'package:broadly/helper/helpeui.dart';
-import 'package:broadly/ui/homepage.dart';
+import 'package:broadly/ui/profile.dart';
+import 'package:broadly/ui/setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Verify extends StatefulWidget {
   final String verificationId;
@@ -12,6 +14,11 @@ class Verify extends StatefulWidget {
 }
 
 class _VerifyState extends State<Verify> {
+  setLoginStat(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('logged', value);
+  }
+
   final formKey = GlobalKey<FormState>();
   TextEditingController otp = TextEditingController();
   final double _radius = 20;
@@ -114,7 +121,8 @@ class _VerifyState extends State<Verify> {
                     child: IconButton(
                       splashRadius: 40,
                       onPressed: () {
-                        helperUI.showLoaderDialog(context,"Verifying please wait..");
+                        helperUI.showLoaderDialog(
+                            context, "Verifying please wait..");
 
                         FirebaseAuth auth = FirebaseAuth.instance;
                         var code = otp.text.trim();
@@ -122,11 +130,15 @@ class _VerifyState extends State<Verify> {
                             verificationId: widget.verificationId,
                             smsCode: code);
                         auth.signInWithCredential(credential).then((value) {
-                          Navigator.pushReplacement(
+                          setLoginStat(true);
+
+                          Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Homepage()));
+                                  builder: (context) => const Setup()),
+                              (route) => false);
                         }).catchError((e) {
+                          setLoginStat(false);
                           var snackBar = SnackBar(
                             content: Text(e.toString()),
                           );

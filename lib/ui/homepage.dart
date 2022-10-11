@@ -1,3 +1,4 @@
+import 'package:broadly/helper/log.dart';
 import 'package:broadly/ui/profile.dart';
 import 'package:broadly/ui/tweet.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class _HomepageState extends State<Homepage> {
   HelperUI helperUI = HelperUI();
   @override
   Widget build(BuildContext context) {
+    Log log = Log(context);
     return Scaffold(
       drawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.7,
@@ -59,7 +61,7 @@ class _HomepageState extends State<Homepage> {
             ListTile(
               title: const Text("Log out"),
               onTap: () {
-                Navigator.pop(context);
+                log.logOut();
               },
             ),
           ],
