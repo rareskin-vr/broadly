@@ -106,15 +106,12 @@ class ImageAccess extends ChangeNotifier {
   }
 
   Future uploadPic(String name, File image) async {
-    print("working 1");
-    print(image.path);
     String filename = Path.basename(image.path);
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
     Reference reference =
         firebaseStorage.ref().child('UserProfile/$userId/$filename');
     UploadTask uploadTask = reference.putFile(image);
     await uploadTask.then((res) {
-      print("working 2");
       res.ref.getDownloadURL().then((fileURL) {
         uploadToDbs(fileURL, name);
       });
@@ -122,7 +119,6 @@ class ImageAccess extends ChangeNotifier {
   }
 
   uploadToDbs(String imageUrl, String name) {
-    print("working 3");
     if (imageUrl.isNotEmpty) {
       Map<String, dynamic> userInfo = {
         "uid": userId,
@@ -130,7 +126,6 @@ class ImageAccess extends ChangeNotifier {
         "imageUrl": imageUrl,
         "date": DateTime.now().microsecondsSinceEpoch,
       };
-      print(userId);
       if (userId != null) {
         database.uploadUserInfo(context, userInfo);
         Navigator.pushAndRemoveUntil(

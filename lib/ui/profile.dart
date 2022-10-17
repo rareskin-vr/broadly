@@ -1,10 +1,13 @@
+import 'package:broadly/helper/userdata.dart';
 import 'package:broadly/ui/tweet.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:broadly/helper/helpeui.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  final UserData userData;
+  const Profile({Key? key, required this.userData}) : super(key: key);
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -19,7 +22,7 @@ class _ProfileState extends State<Profile> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const TweetNow()));
+                context, MaterialPageRoute(builder: (context) =>  TweetNow(userData: widget.userData)));
           },
           backgroundColor: Colors.indigo,
           child: const Icon(Icons.message_outlined),
@@ -48,17 +51,26 @@ class _ProfileState extends State<Profile> {
                       left: 1,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          CircleAvatar(
-                            backgroundColor: Colors.indigo,
-                            minRadius: 50,
+                        children:  [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.userData.imgPath,
+                              imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider,
+                                minRadius: 50,
+                              ),
+                              placeholder: (context, url) => const CircleAvatar(
+                                  minRadius: 50,
+                                  child: Center(child: CircularProgressIndicator())),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                            ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                             child: Text(
-                              "Shivam Kumar Singh",
-                              style: TextStyle(
+                              widget.userData.name,
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w700, fontSize: 16),
                             ),
                           )
@@ -91,7 +103,7 @@ class _ProfileState extends State<Profile> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: 50,
                         itemBuilder: (BuildContext context, int index) {
-                          return helperUI.tweetTile(context);
+                          return helperUI.tweetTile(context,widget.userData);
                         }),
                   ),
                 )

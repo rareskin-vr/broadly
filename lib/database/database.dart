@@ -5,18 +5,29 @@ import 'package:flutter/material.dart';
 
 class Database {
   String? userId = FirebaseAuth.instance.currentUser?.uid;
-
+  final String user = "users";
+  final String tweet = "all_tweet";
   HelperUI helperUI = HelperUI();
-  uploadUserInfo(BuildContext context,userInfo) {
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(userId)
-        .set(userInfo)
-        .catchError((onError) {
-      helperUI.showSnackBar(context, "Something went wrong try again");
-    });
+  uploadUserInfo(BuildContext context, userInfo) {
+    FirebaseFirestore.instance.collection(user).doc(userId).set(userInfo);
   }
+
   findUser() {
-    return FirebaseFirestore.instance.collection("users").doc(userId).get();
+    return FirebaseFirestore.instance.collection(user).doc(userId).get();
+  }
+
+  tweetNow(userTweet) {
+    return FirebaseFirestore.instance
+        .collection(tweet)
+        .doc(user)
+        .set(userTweet);
+  }
+
+  getUserTweet() {
+    return FirebaseFirestore.instance.collection(tweet).doc(user).get();
+  }
+
+  getAllTweet() {
+    return FirebaseFirestore.instance.collection(tweet).get();
   }
 }

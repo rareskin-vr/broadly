@@ -2,6 +2,7 @@ import 'package:broadly/helper/log.dart';
 import 'package:broadly/helper/userdata.dart';
 import 'package:broadly/ui/profile.dart';
 import 'package:broadly/ui/tweet.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:broadly/helper/helpeui.dart';
 
@@ -17,6 +18,7 @@ class _HomepageState extends State<Homepage> {
   HelperUI helperUI = HelperUI();
   @override
   Widget build(BuildContext context) {
+    print(widget.userData.imgPath);
     Log log = Log(context);
     return Scaffold(
       drawer: Drawer(
@@ -30,10 +32,17 @@ class _HomepageState extends State<Homepage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children:  [
-                  const CircleAvatar(
-                    backgroundColor: Colors.indigo,
-                    minRadius: 40,
+                  CachedNetworkImage(
+                    imageUrl: widget.userData.imgPath,
+                    imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider,
+                      minRadius: 40,
+                    ),
+                    placeholder: (context, url) => const CircleAvatar(
+                        minRadius: 40,
+                        child: Center(child: CircularProgressIndicator())),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                     child: Text(
@@ -51,7 +60,7 @@ class _HomepageState extends State<Homepage> {
               title: const Text("Profile"),
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Profile()));
+                    MaterialPageRoute(builder: (context) => Profile(userData: widget.userData)));
               },
             ),
             ListTile(
@@ -72,7 +81,7 @@ class _HomepageState extends State<Homepage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const TweetNow()));
+              MaterialPageRoute(builder: (context) => TweetNow(userData: widget.userData)));
         },
         backgroundColor: Colors.indigo,
         child: const Icon(Icons.message_outlined),
@@ -84,12 +93,18 @@ class _HomepageState extends State<Homepage> {
             child: OutlinedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Profile()));
+                      MaterialPageRoute(builder: (context) => Profile(userData: widget.userData)));
                 },
-                child: const CircleAvatar(
-                  backgroundColor: Colors.indigo,
-                  minRadius: 20,
-                )),
+                child:   CachedNetworkImage(
+                  imageUrl: widget.userData.imgPath,
+                  imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider,
+                    minRadius: 20,
+                  ),
+                  placeholder: (context, url) => const CircleAvatar(
+                      minRadius: 20,
+                      child: Center(child: CircularProgressIndicator())),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),),
           ),
         ],
         title: const Text("Broadly"),
@@ -115,7 +130,7 @@ class _HomepageState extends State<Homepage> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: 50,
                     itemBuilder: (BuildContext context, int index) {
-                      return helperUI.tweetTile(context);
+                      return helperUI.tweetTile(context,widget.userData);
                     }),
               ),
             )

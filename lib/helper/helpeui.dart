@@ -1,7 +1,9 @@
+import 'package:broadly/helper/userdata.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class HelperUI {
-  Padding tweetTile(BuildContext context) {
+  Padding tweetTile(BuildContext context,UserData userData) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: SizedBox(
@@ -10,11 +12,17 @@ class HelperUI {
         //color: Colors.black87,
         child: Row(
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: CircleAvatar(
-                backgroundColor: Colors.indigo,
-                minRadius: 25,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child:   CachedNetworkImage(
+                imageUrl: userData.imgPath,
+                imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider,
+                  minRadius: 25,
+                ),
+                placeholder: (context, url) => const CircleAvatar(
+                    minRadius: 25,
+                    child: Center(child: CircularProgressIndicator())),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             Expanded(
@@ -24,12 +32,12 @@ class HelperUI {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children:  [
                       Text(
-                        "Shivam Kumar Singh",
+                        userData.name,
                         //style: TextStyle(color: Colors.white),
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: 15.0,
                         ),
