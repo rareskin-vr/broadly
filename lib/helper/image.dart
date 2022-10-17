@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:broadly/database.dart';
+import 'package:broadly/database/database.dart';
 import 'package:broadly/helper/helpeui.dart';
+import 'package:broadly/helper/userdata.dart';
 import 'package:broadly/ui/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,6 +14,7 @@ import 'package:path/path.dart' as Path;
 class ImageAccess extends ChangeNotifier {
   Database database = Database();
   String? userId = FirebaseAuth.instance.currentUser?.uid;
+
   File image = File("assets/images/profile.png");
   BuildContext context;
   void setImage() {
@@ -103,7 +105,7 @@ class ImageAccess extends ChangeNotifier {
     }
   }
 
-  Future uploadPic(String name,File image) async {
+  Future uploadPic(String name, File image) async {
     print("working 1");
     print(image.path);
     String filename = Path.basename(image.path);
@@ -129,15 +131,16 @@ class ImageAccess extends ChangeNotifier {
         "date": DateTime.now().microsecondsSinceEpoch,
       };
       print(userId);
-      if(userId!=null){
-        database.uploadUserInfo(context, userId!, userInfo);
+      if (userId != null) {
+        database.uploadUserInfo(context, userInfo);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) => const Homepage()),
-                (route) => false);
+                builder: (context) => Homepage(
+                      userData: UserData(name: name, imgPath: imageUrl),
+                    )),
+            (route) => false);
       }
-
     } else {
       helperUI.showSnackBar(context, "Something went wrong !");
     }

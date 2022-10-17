@@ -1,6 +1,4 @@
-
-import 'package:broadly/ui/profile.dart';
-import 'package:broadly/ui/setup.dart';
+import 'package:broadly/helper/redirect.dart';
 import 'package:broadly/ui/verifyotp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +24,7 @@ class AuthPh {
             setLoginStat(true);
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => const Setup()),
+                MaterialPageRoute(builder: (context) => const Redirect()),
                 (route) => false);
           });
         },

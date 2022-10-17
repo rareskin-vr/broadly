@@ -1,4 +1,6 @@
+
 import 'package:broadly/helper/image.dart';
+import 'package:broadly/helper/redirect.dart';
 import 'package:broadly/ui/homepage.dart';
 import 'package:broadly/ui/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: logged==true?const Homepage():const Login()
+        home: logged==true?const  Redirect():const Login()
       ),
     );
   }

@@ -1,11 +1,13 @@
 import 'package:broadly/helper/log.dart';
+import 'package:broadly/helper/userdata.dart';
 import 'package:broadly/ui/profile.dart';
 import 'package:broadly/ui/tweet.dart';
 import 'package:flutter/material.dart';
 import 'package:broadly/helper/helpeui.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+  final UserData userData;
+  const Homepage({Key? key, required this.userData}) : super(key: key);
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -27,16 +29,16 @@ class _HomepageState extends State<Homepage> {
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  CircleAvatar(
+                children:  [
+                  const CircleAvatar(
                     backgroundColor: Colors.indigo,
                     minRadius: 40,
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                     child: Text(
-                      "Shivam Kumar Singh",
-                      style: TextStyle(
+                      widget.userData.name,
+                      style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
                           color: Colors.white),
